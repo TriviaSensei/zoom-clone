@@ -92,7 +92,7 @@ const addVideoStream = (video, stream, id) => {
 
 const connectToNewUser = (userId, stream) => {
 	const getUserMedia =
-		navigator.getUserMedia ||
+		navigator.mediaDevices.getUserMedia ||
 		navigator.webkitGetUserMedia ||
 		navigator.mozGetUserMedia;
 
