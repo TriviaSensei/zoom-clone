@@ -16,7 +16,7 @@ myVideo.setAttribute('playsinline', true);
 myVideo.muted = true;
 
 const myStream =
-	navigator.getUserMedia ||
+	navigator.mediaDevices.getUserMedia ||
 	navigator.webkitGetUserMedia ||
 	navigator.mozGetUserMedia;
 
