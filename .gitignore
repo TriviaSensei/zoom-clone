@@ -1,0 +1,7 @@
+/.cache
+/data
+**/*.exe
+node_modules/
+*.env
+todo.txt
+sandbox.js
