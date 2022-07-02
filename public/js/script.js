@@ -6,6 +6,7 @@ const myPeer = new Peer(undefined);
 let myUserId;
 
 const myVideo = document.createElement('video');
+myVideo.setAttribute('playsinline', true);
 myVideo.muted = true;
 
 const myStream =
@@ -17,6 +18,8 @@ myPeer.on('call', (call) => {
 	myStream({ video: true, audio: true }, (stream) => {
 		call.answer(stream);
 		const video = document.createElement('video');
+		video.setAttribute('playsinline', true);
+
 		call.on('stream', (remoteStream) => {
 			addVideoStream(video, remoteStream, call.peer);
 		});
@@ -36,6 +39,8 @@ navigator.mediaDevices
 		myPeer.on('call', (call) => {
 			call.answer(stream);
 			const video = document.createElement('video');
+			video.setAttribute('playsinline', true);
+
 			call.on('stream', (userVideoStream) => {
 				addVideoStream(video, userVideoStream, call.peer);
 			});
@@ -89,6 +94,7 @@ const connectToNewUser = (userId, stream) => {
 		(stream) => {
 			const call = myPeer.call(userId, stream);
 			const video = document.createElement('video');
+			video.setAttribute('playsinline', true);
 			call.on('stream', (theirStream) => {
 				// addVideoStream(video, theirStream);
 				addVideoStream(video, theirStream, userId);
