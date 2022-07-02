@@ -22,18 +22,20 @@ const myStream =
 
 myPeer.on('call', (call) => {
 	logActivity('call received');
-	myStream({ video: true, audio: true }, (stream) => {
-		call.answer(stream);
-		const video = document.createElement('video');
-		video.setAttribute('playsinline', true);
+	setTimeout(() => {
+		myStream({ video: true, audio: true }, (stream) => {
+			call.answer(stream);
+			const video = document.createElement('video');
+			video.setAttribute('playsinline', true);
 
-		call.on('stream', (remoteStream) => {
-			addVideoStream(video, remoteStream, call.peer);
-		});
-	}),
-		(err) => {
-			console.log('failed to get local stream', err);
-		};
+			call.on('stream', (remoteStream) => {
+				addVideoStream(video, remoteStream, call.peer);
+			});
+		}),
+			(err) => {
+				console.log('failed to get local stream', err);
+			};
+	}, 1000);
 });
 
 navigator.mediaDevices
