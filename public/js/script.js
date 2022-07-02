@@ -1,9 +1,15 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
+const log = document.getElementById('activity-log');
 
 const myPeer = new Peer(undefined);
-
 let myUserId;
+
+const logActivity = (msg) => {
+	const line = document.createElement('li');
+	line.innerHTML = msg;
+	log.appendChild(line);
+};
 
 const myVideo = document.createElement('video');
 myVideo.setAttribute('playsinline', true);
@@ -15,6 +21,7 @@ const myStream =
 	navigator.mozGetUserMedia;
 
 myPeer.on('call', (call) => {
+	logActivity('call received');
 	myStream({ video: true, audio: true }, (stream) => {
 		call.answer(stream);
 		const video = document.createElement('video');
@@ -36,6 +43,7 @@ navigator.mediaDevices
 	})
 	.then((stream) => {
 		addVideoStream(myVideo, stream, myUserId);
+		logActivity('adding my own stream');
 		myPeer.on('call', (call) => {
 			call.answer(stream);
 			const video = document.createElement('video');
@@ -60,11 +68,11 @@ myPeer.on('open', (userId) => {
 });
 
 socket.on('user-connected', (userId) => {
-	console.log(`user connected ${userId}`);
+	logActivity(`user connected ${userId}`);
 });
 
 socket.on('user-disconnected', (data) => {
-	console.log(`user ${data.userId} disconnected`);
+	logActivity(`user ${data.userId} disconnected`);
 	const v = document.getElementById(`video-${data.userId}`);
 	if (v) {
 		v.remove();
@@ -92,6 +100,7 @@ const connectToNewUser = (userId, stream) => {
 			audio: true,
 		},
 		(stream) => {
+			logActivity(`calling ${userId} with my stream`);
 			const call = myPeer.call(userId, stream);
 			const video = document.createElement('video');
 			video.setAttribute('playsinline', true);
@@ -100,7 +109,7 @@ const connectToNewUser = (userId, stream) => {
 				addVideoStream(video, theirStream, userId);
 			});
 			call.on('close', () => {
-				console.log('call closed');
+				logActivity('call closed');
 				video.remove();
 			});
 		},
