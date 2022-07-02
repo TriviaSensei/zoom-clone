@@ -3,7 +3,9 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const { v4: uuidV4 } = require('uuid');
+const dotenv = require('dotenv');
 
+dotenv.config({ path: './config.env' });
 let users = [];
 
 app.set('view engine', 'pug');
@@ -44,4 +46,5 @@ io.on('connection', (socket) => {
 	});
 });
 
-server.listen(3000);
+const port = process.env.PORT || 3000;
+server.listen(port);
