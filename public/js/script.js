@@ -32,11 +32,13 @@ myStream
 		addVideoStream(myVideo, stream, myUserId);
 		logActivity('adding my own stream');
 		myPeer.on('call', (call) => {
+			logActivity('call received');
 			call.answer(stream);
 			const video = document.createElement('video');
 			video.setAttribute('playsinline', true);
 
 			call.on('stream', (userVideoStream) => {
+				logActivity('stream received');
 				addVideoStream(video, userVideoStream, call.peer);
 			});
 		});
@@ -44,33 +46,6 @@ myStream
 			connectToNewUser(userId, stream);
 		});
 	});
-
-myPeer.on('call', (call) => {
-	logActivity('call received');
-
-	call.answer(myVideoStream);
-	const video = document.createElement('video');
-	video.setAttribute('playsinline', true);
-
-	call.on('stream', (remoteStream) => {
-		logActivity('stream received');
-		if (!document.getElementById(`video-${call.peer}`)) {
-			addVideoStream(video, remoteStream, call.peer);
-		}
-	});
-	// myStream({ video: true, audio: true }, (stream) => {
-	// 	call.answer(stream);
-	// 	const video = document.createElement('video');
-	// 	video.setAttribute('playsinline', true);
-
-	// 	call.on('stream', (remoteStream) => {
-	// 		addVideoStream(video, remoteStream, call.peer);
-	// 	});
-	// }),
-	// 	(err) => {
-	// 		console.log('failed to get local stream', err);
-	// 	};
-});
 
 myPeer.on('open', (userId) => {
 	myUserId = userId;
