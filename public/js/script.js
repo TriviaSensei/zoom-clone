@@ -45,7 +45,7 @@ myPeer.on('open', (userId) => {
 
 myPeer.on('call', (call) => {
 	logActivity('call received');
-	call.answer(stream);
+	call.answer(myVideoStream);
 	const video = document.createElement('video');
 	video.setAttribute('playsinline', true);
 
