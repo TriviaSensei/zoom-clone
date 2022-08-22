@@ -16,14 +16,6 @@ const myVideo = document.createElement('video');
 myVideo.setAttribute('playsinline', true);
 myVideo.muted = true;
 
-if (navigator.mediaDevices) {
-	console.log('media devices');
-} else if (navigator.webkitGetUserMedia) {
-	console.log('webkit');
-} else {
-	console.log('moz');
-}
-
 const myStream =
 	navigator.mediaDevices ||
 	navigator.webkitGetUserMedia ||
@@ -136,32 +128,4 @@ const connectToNewUser = (userId, stream) => {
 		logActivity('call closed');
 		video.remove();
 	});
-
-	// const getUserMedia =
-	// 	navigator.getUserMedia ||
-	// 	navigator.webkitGetUserMedia ||
-	// 	navigator.mozGetUserMedia;
-	// getUserMedia(
-	// 	{
-	// 		video: true,
-	// 		audio: true,
-	// 	},
-	// 	(stream) => {
-	// 		logActivity(`calling ${userId} with my stream`);
-	// 		const call = myPeer.call(userId, stream);
-	// 		const video = document.createElement('video');
-	// 		video.setAttribute('playsinline', true);
-	// 		call.on('stream', (theirStream) => {
-	// 			// addVideoStream(video, theirStream);
-	// 			addVideoStream(video, theirStream, userId);
-	// 		});
-	// 		call.on('close', () => {
-	// 			logActivity('call closed');
-	// 			video.remove();
-	// 		});
-	// 	},
-	// 	(err) => {
-	// 		console.log('failed to get local stream', err);
-	// 	}
-	// );
 };
