@@ -49,10 +49,10 @@ myPeer.on('call', (call) => {
 	const video = document.createElement('video');
 	video.setAttribute('playsinline', true);
 
-	// call.on('stream', (userVideoStream) => {
-	// 	logActivity('stream received');
-	// 	addVideoStream(video, userVideoStream, call.peer);
-	// });
+	call.on('stream', (userVideoStream) => {
+		logActivity('stream received');
+		addVideoStream(video, userVideoStream, call.peer);
+	});
 });
 socket.on('user-connected', (userId) => {
 	connectToNewUser(userId, myVideoStream);
