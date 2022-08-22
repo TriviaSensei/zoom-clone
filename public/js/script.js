@@ -55,7 +55,7 @@ myPeer.on('call', (call) => {
 	});
 });
 socket.on('user-connected', (userId) => {
-	connectToNewUser(userId, stream);
+	connectToNewUser(userId, myVideoStream);
 });
 
 socket.on('user-connected', (userId) => {
