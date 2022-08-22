@@ -16,14 +16,22 @@ const myVideo = document.createElement('video');
 myVideo.setAttribute('playsinline', true);
 myVideo.muted = true;
 
+if (navigator.mediaDevices) {
+	console.log('media devices');
+} else if (navigator.webkitGetUserMedia) {
+	console.log('webkit');
+} else {
+	console.log('moz');
+}
+
 const myStream =
-	navigator.mediaDevices.getUserMedia ||
+	navigator.mediaDevices ||
 	navigator.webkitGetUserMedia ||
 	navigator.mozGetUserMedia;
 
 let myVideoStream;
 
-navigator.mediaDevices
+myStream
 	.getUserMedia({
 		video: true,
 		audio: true,
