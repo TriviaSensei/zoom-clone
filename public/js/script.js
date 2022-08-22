@@ -31,20 +31,6 @@ myStream
 		myVideoStream = stream;
 		addVideoStream(myVideo, stream, myUserId);
 		logActivity('adding my own stream');
-		myPeer.on('call', (call) => {
-			logActivity('call received');
-			call.answer(stream);
-			const video = document.createElement('video');
-			video.setAttribute('playsinline', true);
-
-			call.on('stream', (userVideoStream) => {
-				logActivity('stream received');
-				addVideoStream(video, userVideoStream, call.peer);
-			});
-		});
-		socket.on('user-connected', (userId) => {
-			connectToNewUser(userId, stream);
-		});
 	});
 
 myPeer.on('open', (userId) => {
@@ -55,6 +41,21 @@ myPeer.on('open', (userId) => {
 		roomId,
 		userId,
 	});
+});
+
+myPeer.on('call', (call) => {
+	logActivity('call received');
+	call.answer(stream);
+	const video = document.createElement('video');
+	video.setAttribute('playsinline', true);
+
+	call.on('stream', (userVideoStream) => {
+		logActivity('stream received');
+		addVideoStream(video, userVideoStream, call.peer);
+	});
+});
+socket.on('user-connected', (userId) => {
+	connectToNewUser(userId, stream);
 });
 
 socket.on('user-connected', (userId) => {
