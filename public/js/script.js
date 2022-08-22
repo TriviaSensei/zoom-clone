@@ -28,7 +28,6 @@ const myStream =
 	navigator.mediaDevices ||
 	navigator.webkitGetUserMedia ||
 	navigator.mozGetUserMedia;
-
 let myVideoStream;
 
 myStream
